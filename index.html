@@ -1238,7 +1238,7 @@ function renderReport(d, el) {
     <div class="report-header">
       <div>
         <div class="report-title">${d.product}</div>
-        <div class="report-meta">Research generated ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} · Powered by Gemini + real-time data</div>
+        <div class="report-meta">Research generated ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} · Powered by AI + real-time web search</div>
       </div>
       <div class="export-row">
         <button class="export-btn" onclick="exportPDF()">📄 PDF</button>
@@ -1275,33 +1275,58 @@ function renderReport(d, el) {
     <div class="section">
       <div class="section-label">Social media presence</div>
       <div class="card">
-        <div class="stat-grid" style="margin-bottom:10px;">
-          <div class="stat-card"><div class="stat-label">TikTok posts</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.tiktok_posts}</div><div class="stat-sub">last 30 days</div></div>
-          <div class="stat-card"><div class="stat-label">Instagram</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.ig_posts}</div><div class="stat-sub">public posts</div></div>
-          <div class="stat-card"><div class="stat-label">Twitter/X</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.twitter}</div><div class="stat-sub">mentions</div></div>
-          <div class="stat-card"><div class="stat-label">Facebook</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.facebook}</div><div class="stat-sub">public pages</div></div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:10px;padding:8px 10px;background:rgba(201,168,76,.06);border-radius:6px;border:1px solid var(--border);line-height:1.5;">
+          ⚠️ <strong style="color:var(--gold);">AI estimate</strong> — verify real counts by clicking hashtag links below.
         </div>
-        <div style="font-size:10px;color:var(--muted);border-top:1px solid var(--border2);padding-top:8px;">${d.social.hashtags.map(h=>'#'+h).join(' · ')}</div>
+        <div class="stat-grid" style="margin-bottom:10px;">
+          <div class="stat-card"><div class="stat-label">TikTok posts</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.tiktok_posts}</div><div class="stat-sub">est. 30 days</div></div>
+          <div class="stat-card"><div class="stat-label">Instagram</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.ig_posts}</div><div class="stat-sub">est. posts</div></div>
+          <div class="stat-card"><div class="stat-label">Twitter/X</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.twitter}</div><div class="stat-sub">est. mentions</div></div>
+          <div class="stat-card"><div class="stat-label">Facebook</div><div class="stat-value" style="font-size:18px;color:var(--blue)">${d.social.facebook}</div><div class="stat-sub">est. pages</div></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:8px;">Tap to verify on platform:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          ${d.social.hashtags.map(h=>`<a href="https://www.tiktok.com/search?q=%23${encodeURIComponent(h)}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;padding:4px 10px;background:var(--surface3);border-radius:20px;">#${h} ↗</a>`).join('')}
+        </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-label">Top influencers promoting this</div>
+      <div class="section-label">Influencer strategy guide</div>
       <div class="card-lg">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.6;padding:10px 12px;background:rgba(201,168,76,.06);border-radius:8px;border:1px solid var(--border);">
+          ⚠️ <strong style="color:var(--gold);">Verify directly:</strong> AI cannot guarantee influencer names are accurate. Use the search links below to find real, active influencers for this product.
+        </div>
         ${d.influencers.map(inf=>`
           <div class="inf-row">
             <div class="inf-av" style="background:${inf.color}22;color:${inf.color};">${inf.initials}</div>
             <div class="inf-info">
-              <div class="inf-name">${inf.name}</div>
-              <div class="inf-meta">${inf.followers} · ${inf.platform} · ${inf.niche}</div>
-              <div class="inf-strat">Strategy: ${inf.strategy}</div>
+              <div class="inf-name" style="color:var(--text2);">${inf.niche} · ${inf.followers} followers</div>
+              <div class="inf-meta">${inf.platform}</div>
+              <div class="inf-strat">Best content: ${inf.strategy}</div>
             </div>
             <div class="inf-stat">
-              <div class="inf-v">${inf.views}</div>
-              <div class="inf-vl">views/reach</div>
+              <div class="inf-v" style="font-size:11px;">${inf.type}</div>
             </div>
           </div>
         `).join('')}
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border2);">
+          <div style="font-size:11px;color:var(--text2);font-weight:600;margin-bottom:8px;">Find real influencers — search directly:</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <a href="https://www.tiktok.com/search?q=${encodeURIComponent(d.product)}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;padding:8px 12px;background:var(--surface3);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+              TikTok: search "${d.product}" <span>→ tiktok.com</span>
+            </a>
+            <a href="https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(d.product)}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;padding:8px 12px;background:var(--surface3);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+              Instagram: search "${d.product}" <span>→ instagram.com</span>
+            </a>
+            <a href="https://www.tiktok.com/search?q=${encodeURIComponent(d.product + ' review')}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;padding:8px 12px;background:var(--surface3);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+              TikTok: "${d.product} review" <span>→ tiktok.com</span>
+            </a>
+            <a href="https://www.shopee.co.id/search?keyword=${encodeURIComponent(d.product)}" target="_blank" style="font-size:11px;color:var(--gold);text-decoration:none;padding:8px 12px;background:var(--surface3);border-radius:8px;display:flex;justify-content:space-between;align-items:center;">
+              Shopee: top sellers for "${d.product}" <span>→ shopee.co.id</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1361,6 +1386,9 @@ function renderReport(d, el) {
     <div class="section">
       <div class="section-label">Market sentiment (from public comments)</div>
       <div class="card-lg">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:10px;padding:8px 10px;background:rgba(201,168,76,.06);border-radius:6px;border:1px solid var(--border);line-height:1.5;">
+          ⚠️ <strong style="color:var(--gold);">AI-estimated patterns</strong> — based on typical market behavior. Verify by reading real reviews on <a href="https://shopee.co.id" target="_blank" style="color:var(--gold);">Shopee</a> and <a href="https://tokopedia.com" target="_blank" style="color:var(--gold);">Tokopedia</a>.
+        </div>
         ${d.sentiment.map(s=>`
           <div class="sent-item">
             <div class="sent-top">
