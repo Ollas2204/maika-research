@@ -1091,11 +1091,11 @@ Use this exact compact format, replace all values with real data for the product
 4. Search competitor brands selling "${q}" di Indonesia 2026
 Use the search results to fill in accurate, up-to-date data.`;
 
-        const r = await fetch('https://maika-proxy.creativemindtools8.workers.dev',{
+        const r = await fetch('https://maika-proxy.creativemindtools8.workers.dev/v1/messages',{
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body: JSON.stringify({
-            model:'claude-sonnet-4-5-20250929',
+            model:'claude-sonnet-4-5',
             max_tokens:8000,
             system: sys,
             tools:[{type:'web_search_20250305',name:'web_search'}],
@@ -1118,11 +1118,11 @@ Use the search results to fill in accurate, up-to-date data.`;
         if(data.stop_reason==='tool_use'){
           const el2=document.getElementById('stepTxt');
           if(el2) el2.textContent = 'Processing search results...';
-          const r2 = await fetch('https://maika-proxy.creativemindtools8.workers.dev',{
+          const r2 = await fetch('https://maika-proxy.creativemindtools8.workers.dev/v1/messages',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
-              model:'claude-sonnet-4-5-20250929',
+              model:'claude-sonnet-4-5',
               max_tokens:8000,
               system: sys,
               tools:[{type:'web_search_20250305',name:'web_search'}],
